@@ -9,7 +9,11 @@ import org.bukkit.entity.Player;
 
 public class Configuracion
 {
-
+    private final Player jugador;
+    private boolean parte1;
+    private boolean parte2;
+    private boolean parte3;
+    
     public Configuracion(Player j, boolean p1, boolean p2, boolean p3)
     {
         jugador = j;
@@ -59,9 +63,4 @@ public class Configuracion
         parte2 = false;
         parte3 = false;
     }
-
-    private Player jugador;
-    private boolean parte1;
-    private boolean parte2;
-    private boolean parte3;
 }

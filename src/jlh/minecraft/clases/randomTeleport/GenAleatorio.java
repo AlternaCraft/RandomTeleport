@@ -1,14 +1,16 @@
-// Decompiled by DJ v3.12.12.98 Copyright 2014 Atanas Neshkov  Date: 05/07/2014 18:04:26
-// Home Page:  http://www.neshkov.com/dj.html - Check often for new version!
-// Decompiler options: packimports(3) 
-// Source File Name:   GenAleatorio.java
-
 package jlh.minecraft.clases.randomTeleport;
 
-
+/**
+ * 
+ * @author Julián
+ */
 public class GenAleatorio
 {
-
+    /** constante MAX para definir el maximo del aleatorio */
+    public static final int MAX = 90;
+    /** constante MIN para definir el minimo del aleatorio */
+    public static final int MIN = 65;
+    
     public GenAleatorio()
     {
     }
@@ -22,11 +24,7 @@ public class GenAleatorio
     {
         String nombre = "";
         for(int i = 0; i < longitud; i++)
-            nombre = (new StringBuilder()).append(nombre).append((char)genAl(90, 65)).toString();
-
+            nombre = (new StringBuilder()).append(nombre).append((char)genAl(MAX, MIN)).toString();
         return nombre;
     }
-
-    public static final int MAX = 90;
-    public static final int MIN = 65;
 }

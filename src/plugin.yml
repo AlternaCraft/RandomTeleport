@@ -1,16 +1,37 @@
 name: RandomTeleport
-version: 1.1
-main: jlh.minecraft.plugin.randomTeleport.RandomTeleport
+version: 1.2
+description: Plugin perfecto para evitar el abuso en pvp
+
 author: Julito
-description: Plugin para teletransportes aleatorios
- 
+authors: [Tyr, Eos] 
+
+main: jlh.minecraft.plugin.randomTeleport.RandomTeleport
+softdepend: GUIApi
+
 commands:
     rt:
         usage: /<command>
         description: Autor del plugin
     rtconfig:
         usage: /<command>
+        aliases: [rtconf]
         description: Configurar el plugin
+        permission: rt.config
     rtreload:
         usage: /<command>
-        description: Recarga el plugin    
+        aliases: [rtrel]
+        description: Recarga el plugin
+        permission: rt.reload
+
+permissions:
+   rt.*:
+     description: Consigue acceso a todos los comandos de RandomTeleport
+     children:
+       rt.reload: true
+       rt.config: true
+   rt.reload:
+     description: Recarga el plugin
+     default: false
+   rt.config:
+     description: Configura el plugin
+     default: false
