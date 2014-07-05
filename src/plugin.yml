@@ -1,0 +1,16 @@
+name: RandomTeleport
+version: 1.1
+main: jlh.minecraft.plugin.randomTeleport.RandomTeleport
+author: Julito
+description: Plugin para teletransportes aleatorios
+ 
+commands:
+    rt:
+        usage: /<command>
+        description: Autor del plugin
+    rtconfig:
+        usage: /<command>
+        description: Configurar el plugin
+    rtreload:
+        usage: /<command>
+        description: Recarga el plugin    

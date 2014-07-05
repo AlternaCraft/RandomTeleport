@@ -1,0 +1,10 @@
+mundo: world
+Pos1:
+    x: 0
+    y: 0
+    z: 0
+Pos2:
+    x: 100
+    y: 50
+    z: 25
+llegada: world
