@@ -1,10 +1,14 @@
-mundo: world
-Pos1:
-    x: 0
-    y: 0
-    z: 0
-Pos2:
-    x: 0
-    y: 0
-    z: 0
-llegada: world
+tiempo:
+    no_pvp: 5    
+origen:
+    alias: world
+    pos1:
+        x: 0
+        y: 0
+        z: 0
+    pos2:
+        x: 0
+        y: 0
+        z: 0
+destino: 
+    alias: world
