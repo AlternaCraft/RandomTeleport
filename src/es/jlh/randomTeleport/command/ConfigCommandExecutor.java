@@ -47,7 +47,7 @@ public class ConfigCommandExecutor
             return true;
         } else
         {
-            lista.add(new Configuracion(p, false, false, false));
+            lista.add(new Configuracion(p, false, false, false, false));
             p.sendMessage(PLUGIN + ChatColor.BLUE + "Ahora vaya a una posicion y"
                     + " escriba \"marcar\" para marcar esa posicion");
             return true;

@@ -1,40 +1,35 @@
 package es.jlh.randomTeleport.util;
 
 /**
- * 
+ *
  * @author Julián
  */
-public class Punto
-{
+public class Punto {
+
     private int x;
     private int y;
     private int z;
-    
-    public Punto(int x, int y)
-    {
+
+    public Punto(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public Punto(int x, int y, int z)
-    {
+    public Punto(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public int getX()
-    {
+    public int getX() {
         return x;
     }
 
-    public int getY()
-    {
+    public int getY() {
         return y;
     }
 
-    public int getZ()
-    {
+    public int getZ() {
         return z;
     }
 }

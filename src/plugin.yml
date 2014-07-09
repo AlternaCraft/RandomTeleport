@@ -1,11 +1,11 @@
 name: RandomTeleport
-version: 1.3
+version: 1.0
 description: Plugin perfecto para evitar el abuso en pvp
 
 author: Julito
 authors: [Tyr, Eos] 
 
-main: jlh.minecraft.plugin.randomTeleport.RandomTeleport
+main: es.jlh.randomTeleport.plugin.RandomTeleport
 
 commands:
     rt:

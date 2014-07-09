@@ -30,8 +30,7 @@ public class ReloadCommandExecutor
                 return false;
             }
             
-            plugin.cargaConfig();
-            plugin.establecePuntos();
+            plugin.sm.cargaConfig();
             sender.sendMessage("[RandomTeleporter] Plugin recargado correctamente");
             return true;
         }
@@ -43,8 +42,7 @@ public class ReloadCommandExecutor
             return false;
         }
         
-        plugin.cargaConfig();
-        plugin.establecePuntos();
+        plugin.sm.cargaConfig();
         p.sendMessage(PLUGIN + ChatColor.GREEN + "Plugin recargado correctamente");
         return true;        
     }
