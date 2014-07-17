@@ -1,19 +1,83 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package es.jlh.randomTeleport.util;
 
 /**
  *
- * @author Julián
+ * @author Julian
  */
 public class Localizacion {
+    
+    private String zona;
+    private Punto p1;
+    private Punto p2;
+    private String origen;
+    private String llegada;
+    private int no_pvp; 
 
-    private final Punto p1;
-    private final Punto p2;
-
-    public Localizacion(Punto p1, Punto p2) {
+    public Localizacion() {};
+    
+    public Localizacion(String zona, Punto p1, Punto p2, String origen, String llegada, int no_pvp) {
+        this.zona = zona;
         this.p1 = p1;
+        this.p2 = p2;
+        this.origen = origen;
+        this.llegada = llegada;
+        this.no_pvp = no_pvp;
+    }
+
+    public String getZona() {
+        return zona;
+    }
+
+    public void setZona(String zona) {
+        this.zona = zona;
+    }
+
+    public Punto getPunto1() {
+        return p1;
+    }
+
+    public void setPunto1(Punto p1) {
+        this.p1 = p1;
+    }
+
+    public Punto getPunto2() {
+        return p2;
+    }
+
+    public void setPunto2(Punto p2) {
         this.p2 = p2;
     }
 
+    public String getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(String origen) {
+        this.origen = origen;
+    }
+
+    public String getLlegada() {
+        return llegada;
+    }
+
+    public void setLlegada(String llegada) {
+        this.llegada = llegada;
+    }
+
+    public int getNo_pvp() {
+        return no_pvp;
+    }
+
+    public void setNo_pvp(int no_pvp) {
+        this.no_pvp = no_pvp;
+    }
+    
     /**
      * Metodo para comprobar si un jugador se encuentra en una localizacion
      *

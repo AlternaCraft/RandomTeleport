@@ -5,17 +5,20 @@ import org.bukkit.entity.Player;
 public class Configuracion {
 
     private final Player jugador;
-    private boolean parte1;
-    private boolean parte2;
-    private boolean parte3;
-    private boolean parte4;
+    
+    private boolean parte1; // Gestion de punto 1
+    private boolean parte2; // Gestion de punto 2
+    private boolean parte3; // Gestion de destino
+    private boolean parte4; // Gestion de segundos no-pvp
+    
+    private Localizacion l = new Localizacion();
 
     public Configuracion(Player j, boolean p1, boolean p2, boolean p3, boolean p4) {
-        jugador = j;
-        parte1 = p1;
-        parte2 = p2;
-        parte3 = p3;
-        parte4 = p4;
+        this.jugador = j;
+        this.parte1 = p1;
+        this.parte2 = p2;
+        this.parte3 = p3;
+        this.parte4 = p4;
     }
 
     public Player getJugador() {
@@ -52,6 +55,10 @@ public class Configuracion {
 
     public void setParte4(boolean parte4) {
         this.parte4 = parte4;
+    }
+    
+    public Localizacion getL() {
+        return l;
     }
 
     public void desactivar() {

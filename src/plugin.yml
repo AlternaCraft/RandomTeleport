@@ -12,13 +12,16 @@ commands:
         usage: /<command>
         description: Autor del plugin
     rtconfig:
-        usage: /<command>
-        aliases: [rtconf]
+        usage: /<command> <nombre_zona>
         description: Configurar el plugin
         permission: rt.config
+    rtzona:
+        usage: /<command> <crear/borrar/lista> [nombre_zona]
+        aliases: [rtzone]
+        description: Crea, elimina o lista las zonas activas
+        permission: rt.zone.create
     rtreload:
         usage: /<command>
-        aliases: [rtrel]
         description: Recarga el plugin
         permission: rt.reload
 
@@ -28,9 +31,13 @@ permissions:
      children:
        rt.reload: true
        rt.config: true
+       rt.zona: true
    rt.reload:
      description: Recarga el plugin
      default: false
    rt.config:
      description: Configura el plugin
+     default: false
+   rt.zona:
+     description: Crear o eliminar una zona
      default: false

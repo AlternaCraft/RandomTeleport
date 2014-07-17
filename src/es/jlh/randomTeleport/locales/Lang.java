@@ -12,8 +12,8 @@ public enum Lang {
     PLAYER_SI_PVP("Se ha terminado tu proteccion");
 
     private final String value;
-    public static YamlConfiguration config = null;
-    public static File configFile = new File("plugins/RandomTeleport/messages.yml");
+    public static YamlConfiguration lang = null;
+    public static File langFile = new File("plugins/RandomTeleport/messages.yml");
 
     private Lang(final String value) {
         this.value = value;
@@ -21,8 +21,8 @@ public enum Lang {
 
     public String getText() {
         String value = this.getValue();
-        if (config != null && config.contains(this.name())) {
-                value = config.getString(this.name());
+        if (lang != null && lang.contains(this.name())) {
+                value = lang.getString(this.name());
         }
         //value = ChatColor.translateAlternateColorCodes('&', value);
         return value;
@@ -33,10 +33,10 @@ public enum Lang {
     }
 
     public static void load() {
-        if (!configFile.exists()) {
+        if (!langFile.exists()) {
             createConfig();
         }
-        config = YamlConfiguration.loadConfiguration(configFile);
+        lang = YamlConfiguration.loadConfiguration(langFile);
     }
 
     public static void createConfig() {
@@ -57,7 +57,7 @@ public enum Lang {
         }
         
         try {
-            newConfig.save(configFile);
+            newConfig.save(langFile);
         } 
         catch (Exception e) {
             // a
