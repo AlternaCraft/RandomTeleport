@@ -15,15 +15,3 @@ ejemplo:
       z: 0
   destino: 
     alias: world
-  # Hacer las subzonas
-  subzona:
-    zona0:
-      alias: world
-      pos1:
-        x: 0
-        y: 0
-        z: 0
-      pos2:
-        x: 0
-        y: 0
-        z: 0

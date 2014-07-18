@@ -1,6 +1,7 @@
 package es.jlh.randomTeleport.locales;
 
 import java.io.File;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public enum Lang {
@@ -24,7 +25,7 @@ public enum Lang {
         if (lang != null && lang.contains(this.name())) {
                 value = lang.getString(this.name());
         }
-        //value = ChatColor.translateAlternateColorCodes('&', value);
+        value = ChatColor.translateAlternateColorCodes('&', value);
         return value;
     }
 

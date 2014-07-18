@@ -32,6 +32,9 @@ permissions:
        rt.reload: true
        rt.config: true
        rt.zona: true
+   rt:
+     description: Muestra el autor
+     default: true
    rt.reload:
      description: Recarga el plugin
      default: false

@@ -6,6 +6,8 @@
 
 package es.jlh.randomTeleport.util;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Julian
@@ -19,6 +21,8 @@ public class Localizacion {
     private String llegada;
     private int no_pvp; 
 
+    private ArrayList<SubZona> szonas = new ArrayList();
+    
     public Localizacion() {};
     
     public Localizacion(String zona, Punto p1, Punto p2, String origen, String llegada, int no_pvp) {
@@ -76,6 +80,10 @@ public class Localizacion {
 
     public void setNo_pvp(int no_pvp) {
         this.no_pvp = no_pvp;
+    }
+
+    public ArrayList<SubZona> getSzonas() {
+        return szonas;
     }
     
     /**

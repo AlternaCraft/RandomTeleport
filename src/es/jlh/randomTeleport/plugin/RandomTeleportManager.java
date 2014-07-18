@@ -13,6 +13,7 @@ import es.jlh.randomTeleport.command.ReloadCommandExecutor;
 import es.jlh.randomTeleport.locales.Lang;
 import es.jlh.randomTeleport.util.Localizacion;
 import es.jlh.randomTeleport.util.Punto;
+import es.jlh.randomTeleport.util.SubZona;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -135,7 +136,39 @@ public class RandomTeleportManager {
 
                 int nopvp = config.getInt(zona + ".tiempo.no_pvp");
 
-                configuration.add(new Localizacion(zona,p1,p2,origen,llegada,nopvp));
+                Localizacion l = new Localizacion(zona,p1,p2,origen,llegada,nopvp);
+                int j = 0;
+                
+                if (config.get(zona+".subzona")!=null) {
+                    do {                        
+                        if (config.get(zona+".subzona.zona"+j)!=null) {
+                            p1 = new Punto(config.getInt(zona+".subzona.zona"+j+".pos1.x"), 
+                                    config.getInt(zona+".subzona.zona"+j+".pos1.y"), 
+                                    config.getInt(zona+".subzona.zona"+j+".pos1.z"));
+                            p2 = new Punto(config.getInt(zona+".subzona.zona"+j+".pos2.x"), 
+                                    config.getInt(zona+".subzona.zona"+j+".pos2.y"), 
+                                    config.getInt(zona+".subzona.zona"+j+".pos2.z"));    
+                            SubZona pr = new SubZona(p1,p2);
+                            
+                            if (pr.compLoc(Bukkit.getWorld(llegada))) {
+                                l.getSzonas().add(pr);
+                                j++;
+                            }
+                            else {
+                                Bukkit.getServer().broadcastMessage("Subzona zona"
+                                        +j+" no ha sido cargado por detectar "
+                                        + "fluidos");
+                                j++;
+                            }
+                            
+                        }                   
+                        else {
+                            break;
+                        }
+                    }
+                    while (true);
+                }                
+                configuration.add(l);
             }
         }
     }

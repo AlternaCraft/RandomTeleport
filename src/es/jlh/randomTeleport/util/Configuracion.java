@@ -10,15 +10,20 @@ public class Configuracion {
     private boolean parte2; // Gestion de punto 2
     private boolean parte3; // Gestion de destino
     private boolean parte4; // Gestion de segundos no-pvp
+    private boolean parte5; // Quiere subzona? y para salir
+    private boolean parte6; // Gestion de punto 1 y 2 subzona
     
     private Localizacion l = new Localizacion();
 
-    public Configuracion(Player j, boolean p1, boolean p2, boolean p3, boolean p4) {
+    public Configuracion(Player j, boolean p1, boolean p2, boolean p3, boolean p4, 
+            boolean p5, boolean p6) {
         this.jugador = j;
         this.parte1 = p1;
         this.parte2 = p2;
         this.parte3 = p3;
         this.parte4 = p4;
+        this.parte5 = p5;
+        this.parte6 = p6;
     }
 
     public Player getJugador() {
@@ -41,6 +46,14 @@ public class Configuracion {
         return parte4;
     }
 
+    public boolean isParte5() {
+        return parte5;
+    }
+
+    public boolean isParte6() {
+        return parte6;
+    }
+
     public void setParte1(boolean parte1) {
         this.parte1 = parte1;
     }
@@ -56,15 +69,25 @@ public class Configuracion {
     public void setParte4(boolean parte4) {
         this.parte4 = parte4;
     }
+
+    public void setParte5(boolean parte5) {
+        this.parte5 = parte5;
+    }
+
+    public void setParte6(boolean parte6) {
+        this.parte6 = parte6;
+    }
     
     public Localizacion getL() {
         return l;
     }
 
-    public void desactivar() {
+    public void reiniciar() {
         parte1 = false;
         parte2 = false;
         parte3 = false;
         parte4 = false;
+        parte5 = false;
+        parte6 = false;
     }
 }

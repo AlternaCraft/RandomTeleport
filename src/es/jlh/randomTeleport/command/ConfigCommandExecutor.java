@@ -66,7 +66,7 @@ public class ConfigCommandExecutor implements CommandExecutor {
             }
         }
 
-        Configuracion conf = new Configuracion(p, false, false, false, false);
+        Configuracion conf = new Configuracion(p, false, false, false, false, false, false);
         conf.getL().setZona(args[0]);
         
         lista.add(conf);

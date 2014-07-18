@@ -7,6 +7,7 @@ import es.jlh.randomTeleport.util.GenAleatorio;
 import es.jlh.randomTeleport.util.Localizacion;
 import es.jlh.randomTeleport.util.PlayerZona;
 import es.jlh.randomTeleport.util.Punto;
+import es.jlh.randomTeleport.util.SubZona;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.*;
@@ -58,7 +59,7 @@ public class PlayerTeleport implements Listener, EventExecutor {
         Punto p = null;
         boolean resul = false;
         
-        for (int i = 0; i < plugin.sm.getConfiguration().size(); i++) {
+        for (int i = 0; i < zonas.size(); i++) {
             Localizacion zona = zonas.get(i);
                         
             if (pl.getLocation().getWorld().getName().compareTo(zona.getOrigen()) == 0) {
@@ -69,12 +70,25 @@ public class PlayerTeleport implements Listener, EventExecutor {
                     destino = Bukkit.getServer().getWorld(zona.getLlegada());
 
                     if (zona.compPunto(p)) {
-                        do {
-                            mundoLlegada = new Location(destino, GenAleatorio.
-                                    genAl(MAX_X, MIN_X), Y, GenAleatorio.genAl(MAX_Z, MIN_Z));                    
-                            resul = compruebaLoc(mundoLlegada);
+                        if (zona.getSzonas().isEmpty()) {
+                            do {
+                                mundoLlegada = new Location(destino, GenAleatorio.
+                                        genAl(MAX_X, MIN_X), Y, GenAleatorio.genAl(MAX_Z, MIN_Z));                    
+                                resul = compruebaLoc(mundoLlegada);
+                            }
+                            while (!resul);
                         }
-                        while (!resul);
+                        else {
+                            do {
+                                int al = GenAleatorio.genAl(zona.getSzonas().size()-1, 0);
+                                SubZona pr = zona.getSzonas().get(al);
+                                if (pr.compLoc(destino)) {
+                                    mundoLlegada = pr.locAl(destino);
+                                    break;
+                                }
+                            }
+                            while (true);
+                        }
 
                         pl.teleport(mundoLlegada);  
                         pl.setGameMode(GameMode.SURVIVAL);
