@@ -10,37 +10,49 @@ main: es.jlh.randomTeleport.plugin.RandomTeleport
 commands:
     rt:
         usage: /<command>
+        aliases: [randomteleport]
         description: Autor del plugin
+        permission: rt.author
     rtconfig:
         usage: /<command> <nombre_zona>
         description: Configurar el plugin
         permission: rt.config
-    rtzona:
-        usage: /<command> <crear/borrar/lista> [nombre_zona]
-        aliases: [rtzone]
-        description: Crea, elimina o lista las zonas activas
-        permission: rt.zone.create
+    rtpurga:
+        usage: /<command>
+        aliases: [rtpurge]
+        description: Limpia el historial de las zonas no activas
+        permission: rt.purge
     rtreload:
         usage: /<command>
         description: Recarga el plugin
         permission: rt.reload
+    rtzona:
+        usage: /<command> <crear/borrar/ver/lista> [nombre_zona]
+        aliases: [rtzone]
+        description: Crea, elimina, muestra o lista las zonas activas
+        permission: rt.zone        
 
 permissions:
    rt.*:
      description: Consigue acceso a todos los comandos de RandomTeleport
      children:
-       rt.reload: true
+       rt.author: true
        rt.config: true
        rt.zona: true
-   rt:
+       rt.purge: true       
+       rt.reload: true       
+   rt.author:
      description: Muestra el autor
      default: true
-   rt.reload:
-     description: Recarga el plugin
-     default: false
    rt.config:
      description: Configura el plugin
      default: false
    rt.zona:
-     description: Crear o eliminar una zona
+     description: Limpia el historial de las zonas no activas
      default: false
+   rt.purge:
+     description: Limpia la configuracion
+     default: false
+   rt.reload:
+     description: Recarga el plugin
+     default: false     

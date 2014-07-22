@@ -9,8 +9,9 @@ package es.jlh.randomTeleport.plugin;
 import es.jlh.randomTeleport.command.ZonaCommandExecutor;
 import es.jlh.randomTeleport.command.AuthorCommandExecutor;
 import es.jlh.randomTeleport.command.ConfigCommandExecutor;
+import es.jlh.randomTeleport.command.PurgeCommandExecutor;
 import es.jlh.randomTeleport.command.ReloadCommandExecutor;
-import es.jlh.randomTeleport.locales.Lang;
+import es.jlh.randomTeleport.util.Lang;
 import es.jlh.randomTeleport.util.Localizacion;
 import es.jlh.randomTeleport.util.Punto;
 import es.jlh.randomTeleport.util.SubZona;
@@ -98,11 +99,13 @@ public class RandomTeleportManager {
     }
     
     public void cargaConfig() {
+        plugin.reloadConfig();
         plugin.getConfig().options().header(HEADER);
         plugin.getConfig().options().copyDefaults(true);
         plugin.saveConfig();
         
         config = plugin.getConfig();
+
         guardaValores(); // Guarda los datos del config en una lista
     }
     
@@ -110,6 +113,7 @@ public class RandomTeleportManager {
         plugin.getCommand("rt").setExecutor(new AuthorCommandExecutor(plugin));
         plugin.getCommand("rtconfig").setExecutor(new ConfigCommandExecutor(plugin));
         plugin.getCommand("rtzone").setExecutor(new ZonaCommandExecutor(plugin));
+        plugin.getCommand("rtpurga").setExecutor(new PurgeCommandExecutor(plugin));
         plugin.getCommand("rtreload").setExecutor(new ReloadCommandExecutor(plugin));
     }
     
@@ -159,8 +163,7 @@ public class RandomTeleportManager {
                                         +j+" no ha sido cargado por detectar "
                                         + "fluidos");
                                 j++;
-                            }
-                            
+                            }                            
                         }                   
                         else {
                             break;

@@ -1,8 +1,7 @@
 package es.jlh.randomTeleport.plugin;
 
-import es.jlh.randomTeleport.events.PlayerChat;
-import es.jlh.randomTeleport.events.PlayerTeleport;
-import es.jlh.randomTeleport.locales.Lang;
+import es.jlh.randomTeleport.event.PlayerChat;
+import es.jlh.randomTeleport.event.PlayerTeleport;
 import org.bukkit.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,11 +24,11 @@ public class RandomTeleport extends JavaPlugin {
         // Eventos de bukkit
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerTeleport(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerChat(this), this);
-        sm.getLog().info(Lang.PLUGIN_ENABLED.getText());
+        sm.getLog().info("Plugin cargado con exito");
     }
 
     @Override
     public void onDisable() {
-        sm.getLog().info(Lang.PLUGIN_DISABLED.getText());
+        sm.getLog().info("Plugin desactivado con exito");
     }
 }

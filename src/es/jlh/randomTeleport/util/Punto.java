@@ -31,5 +31,34 @@ public class Punto {
 
     public int getZ() {
         return z;
+    }  
+
+    /*
+    private void setX(int x) {
+        if (x < 0) {
+            x--;
+        }
+        else {
+            this.x = x;
+        }
     }
+
+    private void setY(int y) {
+        if (y < 0) {
+            y--;
+        }
+        else {        
+            this.y = y;
+        }
+    }
+
+    private void setZ(int z) {
+        if (z < 0) {
+            z--;
+        }
+        else {
+            this.z = z;
+        }
+    }    
+    */
 }

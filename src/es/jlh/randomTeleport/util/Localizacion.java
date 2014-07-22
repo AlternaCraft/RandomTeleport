@@ -12,11 +12,9 @@ import java.util.ArrayList;
  *
  * @author Julian
  */
-public class Localizacion {
+public class Localizacion extends SubZona {
     
     private String zona;
-    private Punto p1;
-    private Punto p2;
     private String origen;
     private String llegada;
     private int no_pvp; 
@@ -26,9 +24,8 @@ public class Localizacion {
     public Localizacion() {};
     
     public Localizacion(String zona, Punto p1, Punto p2, String origen, String llegada, int no_pvp) {
+        super(p1,p2);
         this.zona = zona;
-        this.p1 = p1;
-        this.p2 = p2;
         this.origen = origen;
         this.llegada = llegada;
         this.no_pvp = no_pvp;
@@ -40,22 +37,6 @@ public class Localizacion {
 
     public void setZona(String zona) {
         this.zona = zona;
-    }
-
-    public Punto getPunto1() {
-        return p1;
-    }
-
-    public void setPunto1(Punto p1) {
-        this.p1 = p1;
-    }
-
-    public Punto getPunto2() {
-        return p2;
-    }
-
-    public void setPunto2(Punto p2) {
-        this.p2 = p2;
     }
 
     public String getOrigen() {

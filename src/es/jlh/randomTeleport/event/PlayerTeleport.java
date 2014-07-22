@@ -1,6 +1,6 @@
-package es.jlh.randomTeleport.events;
+package es.jlh.randomTeleport.event;
 
-import es.jlh.randomTeleport.locales.Lang;
+import es.jlh.randomTeleport.util.Lang;
 import es.jlh.randomTeleport.plugin.RandomTeleport;
 import static es.jlh.randomTeleport.plugin.RandomTeleport.PLUGIN;
 import es.jlh.randomTeleport.util.GenAleatorio;
@@ -125,8 +125,7 @@ public class PlayerTeleport implements Listener, EventExecutor {
             EntityDamageByEntityEvent ev = (EntityDamageByEntityEvent)e;
             Entity damager = ev.getDamager();
             if (damager instanceof Player) {
-                p = (Player)damager;
-                Player pvp = Bukkit.getServer().getPlayer(p.getName());
+                Player pvp = (Player)damager;
                 for (PlayerZona player : players) {
                     if (pvp.equals(player.getJ())) {
                         pvp.sendMessage(PLUGIN + ChatColor.RED + 
@@ -150,10 +149,11 @@ public class PlayerTeleport implements Listener, EventExecutor {
                 getText().replaceAll("%TIME%", String.valueOf(seg)));
         
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                @Override
-                public void run() {
-                        pl.sendMessage(PLUGIN + ChatColor.BLUE + Lang.PLAYER_SI_PVP.getText());
-                }
+            @Override
+            public void run() {
+                pl.removePotionEffect(PotionEffectType.SPEED);                        
+                pl.sendMessage(PLUGIN + ChatColor.BLUE + Lang.PLAYER_SI_PVP.getText());
+            }
         }, TICKS * seg);        
         
         players.remove(pz);
@@ -162,6 +162,7 @@ public class PlayerTeleport implements Listener, EventExecutor {
     public boolean compruebaLoc(Location loc) {        
         Entity[] lista = loc.getChunk().getEntities();
         
+        // Comprueba el chunk en busca de otros jugadores
         for (Entity lista1 : lista) {
             if (lista1.getType() == PLAYER) {
                 return false;

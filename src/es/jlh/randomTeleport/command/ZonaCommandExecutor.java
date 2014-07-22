@@ -1,11 +1,18 @@
 package es.jlh.randomTeleport.command;
 
+import static es.jlh.randomTeleport.event.PlayerTeleport.TICKS;
 import es.jlh.randomTeleport.plugin.RandomTeleport;
+import static es.jlh.randomTeleport.plugin.RandomTeleport.PLUGIN;
+import es.jlh.randomTeleport.util.Punto;
+import es.jlh.randomTeleport.util.SubZona;
 import java.util.ArrayList;
 import java.util.List;
-import static es.jlh.randomTeleport.plugin.RandomTeleport.PLUGIN;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.World;
 import org.bukkit.command.*;
+import org.bukkit.entity.Player;
 
 /**
  *
@@ -13,9 +20,13 @@ import org.bukkit.command.*;
  */
 public class ZonaCommandExecutor implements CommandExecutor {
 
+    public static final int SEC = 15;
+    
     public static List lista = new ArrayList();
     private final RandomTeleport plugin;
-
+    
+    private final ArrayList<String> zonasUsadas = new ArrayList();
+    
     public ZonaCommandExecutor(RandomTeleport plugin) {
         this.plugin = plugin;
     }
@@ -25,7 +36,7 @@ public class ZonaCommandExecutor implements CommandExecutor {
 
         if (args.length == 0) {
             sender.sendMessage(PLUGIN + ChatColor.RED + "Tienes que indicar "
-                    + "crear, borrar o lista al final del comando");
+                    + "crear, borrar, ver o lista al final del comando");
             return false;
         } 
         
@@ -38,16 +49,18 @@ public class ZonaCommandExecutor implements CommandExecutor {
                     sender.sendMessage(PLUGIN + ChatColor.RED + resul);
                     return true;
                 }
-
-                List<String> zonas = (List<String>)plugin.getConfig().getList("zonasActivas");
-                zonas.add(args[1]);
+                
+                List<String> zonasActivas = (List<String>)plugin.getConfig().getList("zonasActivas");                
+                zonasActivas.add(args[1]);
+                
                 plugin.saveConfig();
-                sender.sendMessage(PLUGIN + ChatColor.GOLD + "Zona " + args[1] + " incluida a "
+                
+                sender.sendMessage(PLUGIN + ChatColor.GOLD + "Zona \"" + args[1] + "\" incluida a "
                         + "las zonas activas");
                 sender.sendMessage(PLUGIN + ChatColor.BLUE + "Haz \"/rtreload\" para "
                         + "aplicar los cambios");
 
-                return true;                
+                return true;          
             }
             
             return false;
@@ -61,6 +74,7 @@ public class ZonaCommandExecutor implements CommandExecutor {
 
                 plugin.getConfig().getList("zonasActivas").remove(args[1]);
                 plugin.saveConfig();
+                
                 sender.sendMessage(PLUGIN + ChatColor.GOLD + "Zona " + args[1] + " eliminada de "
                         + "las zonas activas, puede eliminar su configuracion si lo desea");
                 sender.sendMessage(PLUGIN + ChatColor.BLUE + "Haz \"/rtreload\" para "
@@ -76,8 +90,9 @@ public class ZonaCommandExecutor implements CommandExecutor {
                 return false;
             }
             
-            String zonas = "Lista de zonas: ";
             List<String> zonasActivas = (List<String>)plugin.getConfig().getList("zonasActivas");
+            
+            String zonas = "Lista de zonas: ";            
             
             for (int i = 0; i < zonasActivas.size(); i++) {
                 if (i==zonasActivas.size()-1) {
@@ -91,7 +106,70 @@ public class ZonaCommandExecutor implements CommandExecutor {
             
             return true;
         }
-        
+        else if (args[0].compareToIgnoreCase("ver")==0) {
+            
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(PLUGIN + ChatColor.RED + "Este comando solo "
+                        + "puede ser ejecutado por un jugador");
+            }
+            
+            final Player pl = (Player) sender;
+            
+            if (args.length==2) {                
+                String resul = compruebaVista(args[1], sender);
+
+                if (resul != null) {
+                    pl.sendMessage(PLUGIN + ChatColor.RED + resul);
+                    return true;
+                }
+
+                if (zonasUsadas.contains(args[1])) {
+                    pl.sendMessage(PLUGIN + ChatColor.RED + "La zona ya está en "
+                            + "uso");
+                    return true;
+                }
+                
+                Punto p1 = new Punto (
+                    plugin.getConfig().getInt(args[1]+".origen.pos1.x"),
+                    plugin.getConfig().getInt(args[1]+".origen.pos1.y"),
+                    plugin.getConfig().getInt(args[1]+".origen.pos1.z")
+                );
+
+                Punto p2 = new Punto (
+                    plugin.getConfig().getInt(args[1]+".origen.pos2.x"),
+                    plugin.getConfig().getInt(args[1]+".origen.pos2.y"),
+                    plugin.getConfig().getInt(args[1]+".origen.pos2.z")
+                );
+
+                final SubZona pr = new SubZona(p1,p2);
+                
+                World mundo = Bukkit.getWorld((String)plugin.getConfig().get(args[1]+".origen.alias"));
+                
+                pl.setGameMode(GameMode.CREATIVE);
+                pl.teleport(pr.visitarZona(mundo));
+                
+                zonasUsadas.add(args[1]);
+                
+                pr.generaBlocks(mundo);
+                pl.sendMessage(PLUGIN + ChatColor.GREEN + "Zona marcada con bloques "
+                        + "de glowstone, se restablecera en " + SEC + " segundos...");
+
+                final String argumento = args[1];
+                
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            pr.devuelveBlocks();
+                            zonasUsadas.remove(argumento);
+                            pl.sendMessage(PLUGIN + ChatColor.GOLD + "La zona "
+                                    + "volvió a como estaba por defecto");                            
+                        }
+                }, TICKS * SEC);  
+                
+                return true;                
+            }            
+            return false;
+        }        
         return false;
     }
     
@@ -116,5 +194,18 @@ public class ZonaCommandExecutor implements CommandExecutor {
         }
         
         return true;
-    }    
+    }
+    
+    public String compruebaVista(String arg, CommandSender p) {
+        List<String> zonas = plugin.getConfig().getStringList("zonasActivas");
+        
+        if (!zonas.contains(arg) || arg.compareToIgnoreCase("zonasActivas")==0) {
+            return "La zona " + arg + " no existe o no se puede utilizar";
+        }        
+        else if (plugin.getConfig().get(arg)==null) {
+            return "La zona " + arg + " no se encuentra definida";
+        }       
+        
+        return null;
+    }
 }

@@ -1,12 +1,10 @@
-package es.jlh.randomTeleport.locales;
+package es.jlh.randomTeleport.util;
 
 import java.io.File;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public enum Lang {
-    PLUGIN_ENABLED("Activado con exito!"),
-    PLUGIN_DISABLED("Desactivado con exito!"),
     PLAYER_TELEPORTED("Preparate para la batalla!"),
     PLAYER_INVULNERABILITY("Eres invulnerable durante %TIME% segundos"),
     PLAYER_NO_PVP("No puedes pegar mientras estas protegido"),
@@ -61,7 +59,7 @@ public enum Lang {
             newConfig.save(langFile);
         } 
         catch (Exception e) {
-            // a
+            //a
         }
     }
 }

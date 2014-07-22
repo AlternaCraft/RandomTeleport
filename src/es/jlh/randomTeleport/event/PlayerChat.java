@@ -1,4 +1,4 @@
-package es.jlh.randomTeleport.events;
+package es.jlh.randomTeleport.event;
 
 import es.jlh.randomTeleport.command.ConfigCommandExecutor;
 import es.jlh.randomTeleport.plugin.RandomTeleport;
@@ -68,8 +68,9 @@ public class PlayerChat implements Listener, EventExecutor {
                     if (adm.isParte4() && !adm.isParte5()) {
                         adm.setParte5(true);
                         e.getPlayer().sendMessage(PLUGIN + ChatColor.GREEN +
-                                "Ahora escribe \"finalizar\" para terminar de "
-                                + "crear la zona");
+                                "¡Perfecto!, has terminado de configurar la zona. "
+                                + "Ahora escribe \"finalizar\" para que se apliquen "
+                                + "los cambios en el config");
                     }
                     else {
                         e.getPlayer().sendMessage(PLUGIN + ChatColor.RED + 
@@ -98,7 +99,7 @@ public class PlayerChat implements Listener, EventExecutor {
         
         if (!adm.isParte1()) {                        
             adm.getL().setOrigen(e.getPlayer().getWorld().getName());
-            adm.getL().setPunto1(new Punto((int) l.getX(), (int) l.getY(), (int) l.getZ()));
+            adm.getL().setP1(new Punto((int) l.getX(), (int) l.getY(), (int) l.getZ()));
             adm.setParte1(true);
 
             e.getPlayer().sendMessage(PLUGIN + ChatColor.GREEN
@@ -109,7 +110,7 @@ public class PlayerChat implements Listener, EventExecutor {
                     + "ahora vaya a la siguiente posicion y ponga \"marcar\" nuevamente");
         } 
         else if (!adm.isParte2()) {                        
-            adm.getL().setPunto2(new Punto((int) l.getX(), (int) l.getY(), (int) l.getZ()));
+            adm.getL().setP2(new Punto((int) l.getX(), (int) l.getY(), (int) l.getZ()));
             adm.setParte2(true);
 
             e.getPlayer().sendMessage(PLUGIN + ChatColor.GREEN
@@ -118,10 +119,10 @@ public class PlayerChat implements Listener, EventExecutor {
                     + ChatColor.GOLD + ")" + ChatColor.GREEN + " añadida. "
                     + "Has creado la zona de teletransporte!!.");
             e.getPlayer().sendMessage(PLUGIN + ChatColor.BLUE
-                    + "Ahora escriba el nombre donde quieres que "
+                    + "Ahora escriba el nombre del mundo donde quieres que "
                     + "los players sean teletransportados.");
         }
-        else if (!adm.isParte5() && !adm.isParte6()) {                        
+        else if (adm.isParte4() && !adm.isParte5() && !adm.isParte6()) {                        
             s1 = new Punto((int) l.getX(), PlayerTeleport.Y, (int) l.getZ());
             adm.setParte6(true);
 
@@ -178,8 +179,9 @@ public class PlayerChat implements Listener, EventExecutor {
             e.getPlayer().sendMessage(PLUGIN + ChatColor.GREEN + 
                     e.getMessage() + " segundos añadidos correctamente");
             e.getPlayer().sendMessage(PLUGIN + ChatColor.BLUE
-                    + "Escriba \"parar\" si no quiere añadir subzonas o sino "
-                    + "vuelva a poner \"marcar\".");                    
+                    + "Escriba \"parar\" si no quiere añadir subzonas "
+                    + "(en cuyo caso sera un teletransporte por todo el mundo) "
+                    + "o sino vuelva a poner \"marcar\" para definirla.");                    
         }
         catch (NumberFormatException ex) {
             e.getPlayer().sendMessage(PLUGIN + ChatColor.RED
@@ -200,15 +202,15 @@ public class PlayerChat implements Listener, EventExecutor {
             if (!zonas.contains(adm.getL().getZona())) {
                 zonas.add(adm.getL().getZona());
             }
+            plugin.getConfig().set(adm.getL().getZona() + ".tiempo.no_pvp", adm.getL().getNo_pvp());            
             plugin.getConfig().set(adm.getL().getZona() + ".origen.alias", adm.getL().getOrigen());
-            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos1.x", adm.getL().getPunto1().getX());
-            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos1.y", adm.getL().getPunto1().getY());
-            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos1.z", adm.getL().getPunto1().getZ());
-            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos2.x", adm.getL().getPunto2().getX());
-            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos2.y", adm.getL().getPunto2().getY());
-            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos2.z", adm.getL().getPunto2().getZ());
+            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos1.x", adm.getL().getP1().getX());
+            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos1.y", adm.getL().getP1().getY());
+            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos1.z", adm.getL().getP1().getZ());
+            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos2.x", adm.getL().getP2().getX());
+            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos2.y", adm.getL().getP2().getY());
+            plugin.getConfig().set(adm.getL().getZona() + ".origen.pos2.z", adm.getL().getP2().getZ());
             plugin.getConfig().set(adm.getL().getZona() + ".destino.alias", adm.getL().getLlegada());
-            plugin.getConfig().set(adm.getL().getZona() + ".tiempo.no_pvp", adm.getL().getNo_pvp());
             
             if (!adm.getL().getSzonas().isEmpty()) {
                 for (int j = 0; j < adm.getL().getSzonas().size(); j++) {
