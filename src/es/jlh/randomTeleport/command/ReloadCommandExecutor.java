@@ -22,28 +22,14 @@ public class ReloadCommandExecutor
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String args[])
-    {       
-        if(!(sender instanceof Player)) {
-            if(args.length > 0)
-            {
-                sender.sendMessage("[RandomTeleporter] Te sobran argumentos");
-                return false;
-            }
-            
-            plugin.sm.cargaConfig();
-            sender.sendMessage("[RandomTeleporter] Plugin recargado correctamente");
-            return true;
-        }
-        
-        Player p = (Player)sender;
-        if(args.length > 0)
-        {
-            p.sendMessage(PLUGIN + ChatColor.RED + "Te sobran argumentos");
+    {   
+        if(args.length > 0) {
+            sender.sendMessage(PLUGIN + ChatColor.RED + "Te sobran argumentos");
             return false;
         }
         
         plugin.sm.cargaConfig();
-        p.sendMessage(PLUGIN + ChatColor.GREEN + "Plugin recargado correctamente");
+        sender.sendMessage(PLUGIN + ChatColor.GREEN + "Plugin recargado correctamente");
         return true;        
     }
 }

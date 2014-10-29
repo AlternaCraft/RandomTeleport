@@ -40,7 +40,7 @@ public class ZonaCommandExecutor implements CommandExecutor {
             return false;
         } 
         
-        if (args[0].compareToIgnoreCase("crear")==0) {
+        if (args[0].compareToIgnoreCase("crear") == 0) {
             
             if (args.length==2) {                
                 String resul = compruebaCreacion(args[1], sender);

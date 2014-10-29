@@ -4,15 +4,12 @@ import es.jlh.randomTeleport.plugin.RandomTeleport;
 import static es.jlh.randomTeleport.plugin.RandomTeleport.PLUGIN;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
-import org.bukkit.entity.Player;
 
 /**
  * 
  * @author Julián
  */
-public class AuthorCommandExecutor
-    implements CommandExecutor
-{
+public class AuthorCommandExecutor implements CommandExecutor {
     private final RandomTeleport plugin;
 
     public AuthorCommandExecutor(RandomTeleport plugin)

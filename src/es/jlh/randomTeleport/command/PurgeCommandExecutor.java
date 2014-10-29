@@ -26,8 +26,7 @@ public class PurgeCommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String args[])
     {
-        if(args.length > 0)
-        {
+        if(args.length > 0) {
             sender.sendMessage(PLUGIN + ChatColor.RED + "Te sobran argumentos");
             return false;
         }

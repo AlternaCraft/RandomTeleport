@@ -2,8 +2,7 @@ name: RandomTeleport
 version: 1.0
 description: Plugin perfecto para evitar el abuso en pvp
 
-author: Julito
-authors: [Tyr, Eos] 
+author: Julito 
 
 main: es.jlh.randomTeleport.plugin.RandomTeleport
 

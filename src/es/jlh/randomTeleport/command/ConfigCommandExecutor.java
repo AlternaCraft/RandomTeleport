@@ -37,8 +37,8 @@ public class ConfigCommandExecutor implements CommandExecutor {
             p.sendMessage(PLUGIN + ChatColor.RED + "Tienes que indicar el nombre"
                     + " de la zona");
             return false;
-        } 
-        else if (args.length > 1) {
+        }        
+        if (args.length > 1) {
             p.sendMessage(PLUGIN + ChatColor.RED + "Te sobran argumentos");
             return false;
         }
@@ -49,7 +49,7 @@ public class ConfigCommandExecutor implements CommandExecutor {
             return true;
         }
 
-        // Si ya existe le aviso
+        // Si ya existe la zona
         List<String> zonas = (List<String>)plugin.getConfig().getList("zonasActivas");        
         if (zonas.contains(args[0])) {
             p.sendMessage(PLUGIN + ChatColor.RED + "La zona " + args[0] + " ya existe asi que "
@@ -61,7 +61,7 @@ public class ConfigCommandExecutor implements CommandExecutor {
             if (conf.getJugador().equals(p)) {
                 p.sendMessage(PLUGIN + ChatColor.RED + "Ya has usado ese comando!");
                 p.sendMessage(PLUGIN + ChatColor.BLUE + "Puedes volver a empezar "
-                        + "escribiendo \"reiniciar\"");
+                        + "escribiendo \"reiniciar\" o parar poniendo \"finalizar\"");
                 return true;
             }
         }

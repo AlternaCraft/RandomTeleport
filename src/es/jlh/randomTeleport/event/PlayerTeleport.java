@@ -56,21 +56,20 @@ public class PlayerTeleport implements Listener, EventExecutor {
         Player pl = e.getPlayer();
         World destino = null;
         Location mundoLlegada = null;
-        Punto p = null;
-        boolean resul = false;
         
         for (int i = 0; i < zonas.size(); i++) {
             Localizacion zona = zonas.get(i);
                         
             if (pl.getLocation().getWorld().getName().compareTo(zona.getOrigen()) == 0) {
                 Location player = pl.getLocation();
-                p = new Punto((int) player.getX(), (int) player.getY(), (int) player.getZ());
+                Punto p = new Punto((int) player.getX(), (int) player.getY(), (int) player.getZ());
 
                 try {
                     destino = Bukkit.getServer().getWorld(zona.getLlegada());
 
                     if (zona.compPunto(p)) {
                         if (zona.getSzonas().isEmpty()) {
+                            boolean resul = false;
                             do {
                                 mundoLlegada = new Location(destino, GenAleatorio.
                                         genAl(MAX_X, MIN_X), Y, GenAleatorio.genAl(MAX_Z, MIN_Z));                    
@@ -79,7 +78,7 @@ public class PlayerTeleport implements Listener, EventExecutor {
                             while (!resul);
                         }
                         else {
-                            do {
+                            do { // Posible bucle infinito
                                 int al = GenAleatorio.genAl(zona.getSzonas().size()-1, 0);
                                 SubZona pr = zona.getSzonas().get(al);
                                 if (pr.compLoc(destino)) {
@@ -92,13 +91,12 @@ public class PlayerTeleport implements Listener, EventExecutor {
 
                         pl.teleport(mundoLlegada);  
                         pl.setGameMode(GameMode.SURVIVAL);
-                        pl.sendMessage(PLUGIN + ChatColor.GOLD + Lang.PLAYER_TELEPORTED.getText());                        
+                        pl.sendMessage(PLUGIN + Lang.PLAYER_TELEPORTED.getText());                        
                         players.add(new PlayerZona(zona.getZona(),pl));
                     }
                 } 
                 catch (Exception ex) {
-                    pl.sendMessage(PLUGIN + ChatColor.RED
-                            + "El mundo " + destino.getName() + " no existe");
+                    pl.sendMessage(PLUGIN + Lang.PLUGIN_ERROR_TP.getText());
                 }
             }
         }        
@@ -128,8 +126,7 @@ public class PlayerTeleport implements Listener, EventExecutor {
                 Player pvp = (Player)damager;
                 for (PlayerZona player : players) {
                     if (pvp.equals(player.getJ())) {
-                        pvp.sendMessage(PLUGIN + ChatColor.RED + 
-                                Lang.PLAYER_NO_PVP.getText());
+                        pvp.sendMessage(PLUGIN + Lang.PLAYER_NO_PVP.getText());
                         e.setCancelled(true);
                         break;
                     }
@@ -145,14 +142,14 @@ public class PlayerTeleport implements Listener, EventExecutor {
         
         pl.setNoDamageTicks(TICKS * seg);
         pl.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, TICKS * seg, 5));
-        pl.sendMessage(PLUGIN + ChatColor.BLUE + Lang.PLAYER_INVULNERABILITY.
+        pl.sendMessage(PLUGIN + Lang.PLAYER_INVULNERABILITY.
                 getText().replaceAll("%TIME%", String.valueOf(seg)));
         
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
             @Override
             public void run() {
                 pl.removePotionEffect(PotionEffectType.SPEED);                        
-                pl.sendMessage(PLUGIN + ChatColor.BLUE + Lang.PLAYER_SI_PVP.getText());
+                pl.sendMessage(PLUGIN + Lang.PLAYER_SI_PVP.getText());
             }
         }, TICKS * seg);        
         
@@ -169,6 +166,7 @@ public class PlayerTeleport implements Listener, EventExecutor {
             }
         }
         
+        // Comprueba el chunk en busca de liquidos
         for (int i = 0; i < X_CHUNK; i++) {
             for (int j = 0; j < Y_CHUNK; j++) {
                 for (int k = 0; k < Z_CHUNK; k++) {
