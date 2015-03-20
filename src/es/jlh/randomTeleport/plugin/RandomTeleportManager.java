@@ -6,15 +6,10 @@
 
 package es.jlh.randomTeleport.plugin;
 
-import es.jlh.randomTeleport.command.ZonaCommandExecutor;
-import es.jlh.randomTeleport.command.AuthorCommandExecutor;
-import es.jlh.randomTeleport.command.ConfigCommandExecutor;
-import es.jlh.randomTeleport.command.PurgeCommandExecutor;
-import es.jlh.randomTeleport.command.ReloadCommandExecutor;
-import es.jlh.randomTeleport.util.Lang;
 import es.jlh.randomTeleport.util.Localizacion;
 import es.jlh.randomTeleport.util.Punto;
-import es.jlh.randomTeleport.util.SubZona;
+import es.jlh.randomTeleport.util.Zona;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -81,7 +76,7 @@ public class RandomTeleportManager {
      */
     
     public PluginDescriptionFile getDesc() {
-            return plugin.getDescription();
+        return plugin.getDescription();
     }
     
     /*
@@ -90,31 +85,27 @@ public class RandomTeleportManager {
     
     public void setup(RandomTeleport plugin) {
         this.plugin = plugin;
-        log = plugin.getLogger();
-        
-        Lang.load();
+        log = plugin.getLogger();       
         
         cargaConfig();
-        cargaComandos(); // Asocio los comandos con los ejecutores
     }
     
     public void cargaConfig() {
         plugin.reloadConfig();
-        plugin.getConfig().options().header(HEADER);
-        plugin.getConfig().options().copyDefaults(true);
+        
+        if (!new File(new StringBuilder().append(
+                plugin.getDataFolder()).append(
+                        File.separator).append(
+                                "config.yml").toString()).exists()) {  
+            plugin.getConfig().options().header(HEADER);        
+            plugin.getConfig().options().copyDefaults(true);
+        }
+        
         plugin.saveConfig();
         
         config = plugin.getConfig();
 
         guardaValores(); // Guarda los datos del config en una lista
-    }
-    
-    private void cargaComandos() {
-        plugin.getCommand("rt").setExecutor(new AuthorCommandExecutor(plugin));
-        plugin.getCommand("rtconfig").setExecutor(new ConfigCommandExecutor(plugin));
-        plugin.getCommand("rtzone").setExecutor(new ZonaCommandExecutor(plugin));
-        plugin.getCommand("rtpurga").setExecutor(new PurgeCommandExecutor(plugin));
-        plugin.getCommand("rtreload").setExecutor(new ReloadCommandExecutor(plugin));
     }
     
     private void guardaValores() {
@@ -151,8 +142,9 @@ public class RandomTeleportManager {
                                     config.getInt(zona+".subzona.zona"+j+".pos1.z"));
                             p2 = new Punto(config.getInt(zona+".subzona.zona"+j+".pos2.x"), 
                                     config.getInt(zona+".subzona.zona"+j+".pos2.y"), 
-                                    config.getInt(zona+".subzona.zona"+j+".pos2.z"));    
-                            SubZona pr = new SubZona(p1,p2);
+                                    config.getInt(zona+".subzona.zona"+j+".pos2.z"));
+                            
+                            Zona pr = new Zona(p1,p2);
                             
                             if (pr.compLoc(Bukkit.getWorld(llegada))) {
                                 l.getSzonas().add(pr);

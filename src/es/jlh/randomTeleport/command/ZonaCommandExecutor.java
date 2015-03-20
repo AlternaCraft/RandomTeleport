@@ -1,10 +1,10 @@
 package es.jlh.randomTeleport.command;
 
-import static es.jlh.randomTeleport.event.PlayerTeleport.TICKS;
+import static es.jlh.randomTeleport.handlers.HandleTeleport.TICKS;
 import es.jlh.randomTeleport.plugin.RandomTeleport;
 import static es.jlh.randomTeleport.plugin.RandomTeleport.PLUGIN;
 import es.jlh.randomTeleport.util.Punto;
-import es.jlh.randomTeleport.util.SubZona;
+import es.jlh.randomTeleport.util.Zona;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Bukkit;
@@ -18,10 +18,7 @@ import org.bukkit.entity.Player;
  *
  * @author Julián
  */
-public class ZonaCommandExecutor implements CommandExecutor {
-
-    public static final int SEC = 15;
-    
+public class ZonaCommandExecutor implements CommandExecutor {    
     public static List lista = new ArrayList();
     private final RandomTeleport plugin;
     
@@ -33,15 +30,13 @@ public class ZonaCommandExecutor implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String args[]) {
-
         if (args.length == 0) {
             sender.sendMessage(PLUGIN + ChatColor.RED + "Tienes que indicar "
-                    + "crear, borrar, ver o lista al final del comando");
+                    + "activar, borrar, ver o lista al final del comando");
             return false;
         } 
         
-        if (args[0].compareToIgnoreCase("crear") == 0) {
-            
+        if (args[0].compareToIgnoreCase("activar") == 0) {            
             if (args.length==2) {                
                 String resul = compruebaCreacion(args[1], sender);
 
@@ -115,7 +110,7 @@ public class ZonaCommandExecutor implements CommandExecutor {
             
             final Player pl = (Player) sender;
             
-            if (args.length==2) {                
+            if (args.length==3) {                
                 String resul = compruebaVista(args[1], sender);
 
                 if (resul != null) {
@@ -127,6 +122,19 @@ public class ZonaCommandExecutor implements CommandExecutor {
                     pl.sendMessage(PLUGIN + ChatColor.RED + "La zona ya está en "
                             + "uso");
                     return true;
+                }
+                
+                int tiempo;                
+                try {
+                    tiempo = Integer.parseInt(args[2]);
+                    if (tiempo < 15 || tiempo > 60) {
+                        tiempo = 15;
+                        pl.sendMessage(PLUGIN + ChatColor.RED + "Cantidad de tiempo "
+                                + "incorrecta se ha establecido por defecto a 15s");
+                    }
+                }
+                catch(NumberFormatException ex) {
+                    return false;
                 }
                 
                 Punto p1 = new Punto (
@@ -141,7 +149,7 @@ public class ZonaCommandExecutor implements CommandExecutor {
                     plugin.getConfig().getInt(args[1]+".origen.pos2.z")
                 );
 
-                final SubZona pr = new SubZona(p1,p2);
+                final Zona pr = new Zona(p1,p2);
                 
                 World mundo = Bukkit.getWorld((String)plugin.getConfig().get(args[1]+".origen.alias"));
                 
@@ -152,7 +160,7 @@ public class ZonaCommandExecutor implements CommandExecutor {
                 
                 pr.generaBlocks(mundo);
                 pl.sendMessage(PLUGIN + ChatColor.GREEN + "Zona marcada con bloques "
-                        + "de glowstone, se restablecera en " + SEC + " segundos...");
+                        + "de glowstone, se restablecera en " + tiempo + " segundos...");
 
                 final String argumento = args[1];
                 
@@ -164,7 +172,7 @@ public class ZonaCommandExecutor implements CommandExecutor {
                             pl.sendMessage(PLUGIN + ChatColor.GOLD + "La zona "
                                     + "volvió a como estaba por defecto");                            
                         }
-                }, TICKS * SEC);  
+                }, TICKS * tiempo);  
                 
                 return true;                
             }            
@@ -189,7 +197,7 @@ public class ZonaCommandExecutor implements CommandExecutor {
     public boolean compruebaEliminacion(String arg, CommandSender p) {
         List<String> zonas = (List<String>)plugin.getConfig().getList("zonasActivas");
         
-        if (!zonas.contains(arg) || arg.compareToIgnoreCase("zonasActivas")==0) {
+        if (!zonas.contains(arg) || arg.compareToIgnoreCase("zonasActivas") == 0) {
             return false;
         }
         

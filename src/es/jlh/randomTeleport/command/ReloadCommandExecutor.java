@@ -2,6 +2,7 @@ package es.jlh.randomTeleport.command;
 
 import es.jlh.randomTeleport.plugin.RandomTeleport;
 import static es.jlh.randomTeleport.plugin.RandomTeleport.PLUGIN;
+import es.jlh.randomTeleport.util.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -21,15 +22,14 @@ public class ReloadCommandExecutor
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String args[])
-    {   
+    public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String args[]) {   
         if(args.length > 0) {
-            sender.sendMessage(PLUGIN + ChatColor.RED + "Te sobran argumentos");
+            sender.sendMessage(PLUGIN + Lang.COMMAND_ARGUMENTS.getText());
             return false;
         }
         
         plugin.sm.cargaConfig();
-        sender.sendMessage(PLUGIN + ChatColor.GREEN + "Plugin recargado correctamente");
+        sender.sendMessage(PLUGIN + Lang.PLUGIN_RELOAD.getText());
         return true;        
     }
 }

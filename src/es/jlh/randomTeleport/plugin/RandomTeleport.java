@@ -1,7 +1,13 @@
 package es.jlh.randomTeleport.plugin;
 
-import es.jlh.randomTeleport.event.PlayerChat;
-import es.jlh.randomTeleport.event.PlayerTeleport;
+import es.jlh.randomTeleport.command.InfoCommandExecutor;
+import es.jlh.randomTeleport.command.ConfigCommandExecutor;
+import es.jlh.randomTeleport.command.PurgeCommandExecutor;
+import es.jlh.randomTeleport.command.ReloadCommandExecutor;
+import es.jlh.randomTeleport.command.ZonaCommandExecutor;
+import es.jlh.randomTeleport.handlers.HandleChat;
+import es.jlh.randomTeleport.handlers.HandleTeleport;
+import es.jlh.randomTeleport.util.Lang;
 import org.bukkit.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,15 +26,32 @@ public class RandomTeleport extends JavaPlugin {
     public void onEnable() {
         // Llama al manager para que registre los datos del config
         sm.setup(this);
-                
-        // Eventos de bukkit
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerTeleport(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerChat(this), this);
-        sm.getLog().info("Plugin cargado con exito");
+        
+        // Cargo los locales
+        try {            
+            Lang.load();
+        } 
+        catch (Exception ex) {
+            this.getServer().getConsoleSender().sendMessage(PLUGIN + 
+                        ChatColor.RED + ex.getMessage());
+        }
+        
+        // Comandos del plugin
+        this.getCommand("rt").setExecutor(new InfoCommandExecutor(this));
+        this.getCommand("rtconfig").setExecutor(new ConfigCommandExecutor(this));
+        this.getCommand("rtzone").setExecutor(new ZonaCommandExecutor(this));
+        this.getCommand("rtpurge").setExecutor(new PurgeCommandExecutor(this));
+        this.getCommand("rtreload").setExecutor(new ReloadCommandExecutor(this));
+        
+        // Handlers
+        Bukkit.getServer().getPluginManager().registerEvents(new HandleTeleport(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new HandleChat(this), this);
+        
+        sm.getLog().info(Lang.PLUGIN_ENABLED.getText());
     }
 
     @Override
     public void onDisable() {
-        sm.getLog().info("Plugin desactivado con exito");
+        sm.getLog().info(Lang.PLUGIN_DISABLED.getText());
     }
 }

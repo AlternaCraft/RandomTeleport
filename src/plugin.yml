@@ -2,7 +2,7 @@ name: RandomTeleport
 version: 1.0
 description: Plugin perfecto para evitar el abuso en pvp
 
-author: Julito 
+author: Julito
 
 main: es.jlh.randomTeleport.plugin.RandomTeleport
 
@@ -14,20 +14,21 @@ commands:
         permission: rt.author
     rtconfig:
         usage: /<command> <nombre_zona>
+        aliases: [rtcrea]
         description: Configurar el plugin
         permission: rt.config
-    rtpurga:
+    rtpurge:
         usage: /<command>
-        aliases: [rtpurge]
+        aliases: [rtpurga]
         description: Limpia el historial de las zonas no activas
         permission: rt.purge
     rtreload:
         usage: /<command>
         description: Recarga el plugin
         permission: rt.reload
-    rtzona:
-        usage: /<command> <crear/borrar/ver/lista> [nombre_zona]
-        aliases: [rtzone]
+    rtzone:
+        usage: /<command> <activar/borrar/ver/lista> [nombre_zona] [tiempo]
+        aliases: [rtzona]
         description: Crea, elimina, muestra o lista las zonas activas
         permission: rt.zone        
 
@@ -46,8 +47,8 @@ permissions:
    rt.config:
      description: Configura el plugin
      default: false
-   rt.zona:
-     description: Limpia el historial de las zonas no activas
+   rt.zone:
+     description: Operaciones con las zonas
      default: false
    rt.purge:
      description: Limpia la configuracion

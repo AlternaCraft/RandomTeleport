@@ -24,9 +24,11 @@ public class GenAleatorio {
 
     public static String genNombre(int longitud) {
         String nombre = "";
+        
         for (int i = 0; i < longitud; i++) {
             nombre = (new StringBuilder()).append(nombre).append((char) genAl(MAX, MIN)).toString();
         }
+        
         return nombre;
     }
 }

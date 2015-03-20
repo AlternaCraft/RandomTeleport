@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import es.jlh.randomTeleport.util.Configuracion;
 import static es.jlh.randomTeleport.plugin.RandomTeleport.PLUGIN;
+import es.jlh.randomTeleport.util.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -26,25 +27,20 @@ public class ConfigCommandExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String args[]) {
         // Añadir nombre de zona para varias zonas posibles en el config
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "Consola no puedes hacer eso");
+            sender.sendMessage(PLUGIN + Lang.COMMAND_FORBIDDEN.getText());
             return true;
         }
 
         Player p = (Player) sender;
 
-        // Compruebo los argumentos
-        if (args.length < 1) {
-            p.sendMessage(PLUGIN + ChatColor.RED + "Tienes que indicar el nombre"
-                    + " de la zona");
-            return false;
-        }        
+        // Compruebo los argumentos  
         if (args.length > 1) {
-            p.sendMessage(PLUGIN + ChatColor.RED + "Te sobran argumentos");
+            p.sendMessage(PLUGIN + Lang.COMMAND_ARGUMENTS.getText());
             return false;
         }
         
         // Nombre reservado        
-        if (args[0].compareToIgnoreCase("zonasActivas")==0) {
+        if (args[0].compareToIgnoreCase("zonasActivas") == 0) {
             p.sendMessage(PLUGIN + ChatColor.RED + "Ese nombre esta reservado");
             return true;
         }
@@ -58,7 +54,7 @@ public class ConfigCommandExecutor implements CommandExecutor {
         
         // Si ya esta configurando no puede empezar de nuevo
         for (Configuracion conf : lista) {
-            if (conf.getJugador().equals(p)) {
+            if (conf.getJugador().getName().equals(p.getName())) {
                 p.sendMessage(PLUGIN + ChatColor.RED + "Ya has usado ese comando!");
                 p.sendMessage(PLUGIN + ChatColor.BLUE + "Puedes volver a empezar "
                         + "escribiendo \"reiniciar\" o parar poniendo \"finalizar\"");
@@ -75,6 +71,7 @@ public class ConfigCommandExecutor implements CommandExecutor {
                 + " escriba \"marcar\" para marcar esa posicion");
         p.sendMessage(PLUGIN + ChatColor.DARK_AQUA + "Recuerda que puedes parar de "
                 + "configurar usando \"cancelar\"");
+        
         return true;        
     }
 }

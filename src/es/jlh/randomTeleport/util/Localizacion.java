@@ -12,14 +12,14 @@ import java.util.ArrayList;
  *
  * @author Julian
  */
-public class Localizacion extends SubZona {
+public class Localizacion extends Zona {
     
     private String zona;
     private String origen;
     private String llegada;
     private int no_pvp; 
 
-    private ArrayList<SubZona> szonas = new ArrayList();
+    private ArrayList<Zona> szonas = new ArrayList();
     
     public Localizacion() {};
     
@@ -63,7 +63,7 @@ public class Localizacion extends SubZona {
         this.no_pvp = no_pvp;
     }
 
-    public ArrayList<SubZona> getSzonas() {
+    public ArrayList<Zona> getSzonas() {
         return szonas;
     }
     
