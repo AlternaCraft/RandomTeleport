@@ -23,10 +23,7 @@ public class RandomTeleport extends JavaPlugin {
     public RandomTeleportManager sm = RandomTeleportManager.getInstance();   
 
     @Override
-    public void onEnable() {
-        // Llama al manager para que registre los datos del config
-        sm.setup(this);
-        
+    public void onEnable() {        
         // Cargo los locales
         try {            
             Lang.load();
@@ -35,6 +32,9 @@ public class RandomTeleport extends JavaPlugin {
             this.getServer().getConsoleSender().sendMessage(PLUGIN + 
                         ChatColor.RED + ex.getMessage());
         }
+        
+        // Llama al manager para que registre los datos del config
+        sm.setup(this);
         
         // Comandos del plugin
         this.getCommand("rt").setExecutor(new InfoCommandExecutor(this));

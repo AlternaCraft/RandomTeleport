@@ -30,8 +30,7 @@ commands:
         usage: /<command> <activar/borrar/ver/lista> [nombre_zona] [tiempo]
         aliases: [rtzona]
         description: Crea, elimina, muestra o lista las zonas activas
-        permission: rt.zone        
-
+        permission: rt.zone  
 permissions:
    rt.*:
      description: Consigue acceso a todos los comandos de RandomTeleport
