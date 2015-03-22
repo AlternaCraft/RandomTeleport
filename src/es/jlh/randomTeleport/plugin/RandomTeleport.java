@@ -8,6 +8,8 @@ import es.jlh.randomTeleport.command.ZonaCommandExecutor;
 import es.jlh.randomTeleport.handlers.HandleChat;
 import es.jlh.randomTeleport.handlers.HandleTeleport;
 import es.jlh.randomTeleport.util.Lang;
+import es.jlh.randomTeleport.util.Metrics;
+import java.io.IOException;
 import org.bukkit.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,6 +34,16 @@ public class RandomTeleport extends JavaPlugin {
             this.getServer().getConsoleSender().sendMessage(PLUGIN + 
                         ChatColor.RED + ex.getMessage());
         }
+        
+        // Metricas del plugin
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } 
+        catch (IOException e) {
+            this.getServer().getConsoleSender().sendMessage(PLUGIN + 
+                        ChatColor.RED + "Failed to submit the stats :-("); 
+       }        
         
         // Llama al manager para que registre los datos del config
         sm.setup(this);
